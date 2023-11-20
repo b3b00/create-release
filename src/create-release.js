@@ -3,6 +3,7 @@ const { GitHub, context } = require('@actions/github');
 const fs = require('fs');
 
 async function run() {
+  let failsOnCreationError = true;
   try {
     // Get authenticated GitHub client (Ocktokit): https://github.com/actions/toolkit/tree/master/packages/github#usage
     const github = new GitHub(process.env.GITHUB_TOKEN);
@@ -24,7 +25,7 @@ async function run() {
     const bodyPath = core.getInput('body_path', { required: false });
     const owner = core.getInput('owner', { required: false }) || currentOwner;
     const repo = core.getInput('repo', { required: false }) || currentRepo;
-    const failsOnCreationError = core.getInput('failsOnCreationError',{required: false}) || true;
+    failsOnCreationError = core.getInput('failsOnCreationError', { required: false }) === 'true' || true;
     let bodyFileContent = null;
     if (bodyPath !== '' && !!bodyPath) {
       try {
@@ -61,7 +62,7 @@ async function run() {
     if (failsOnCreationError) {
       core.setFailed(error.message);
     }
-    core.setOutput('upload_url', uploadUrl);
+    core.setOutput('upload_url', '');
   }
 }
 
