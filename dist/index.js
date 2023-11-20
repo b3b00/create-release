@@ -8821,7 +8821,12 @@ async function run() {
       owner: currentOwner,
       repo: currentRepo
     });
-    if (lastRelease.TagName === tag) {
+    console.log(`tag:>${tag}< lastestRelease.Tag:>${lastRelease.tag_name}<`);
+    const lastTagName = lastRelease.tag_name;
+    const lastTag = tagName.startsWith('v') ? lastTagName.substring(1) : lastTagName;
+    console.log(`comparing last release tag >${lastTag}< to >${tag}<`);
+    if (lastTag === tag) {
+      console.log('no need for new release');
       return;
     }
 
@@ -8833,6 +8838,7 @@ async function run() {
       }
     }
 
+    console.log(`creating a new release with ${owner}/${repo} @${tag}`);
     // Create a release
     // API Documentation: https://developer.github.com/v3/repos/releases/#create-a-release
     // Octokit Documentation: https://octokit.github.io/rest.js/#octokit-routes-repos-create-release
