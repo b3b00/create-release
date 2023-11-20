@@ -8792,6 +8792,9 @@ async function run() {
     // Get owner and repo from context of payload that triggered the action
     const { owner: currentOwner, repo: currentRepo } = context.repo;
 
+    console.log(`current owner = ${context.repo.owner}`);
+    console.log(`current repo = ${context.repo.repo}`);
+
     // Get the inputs from the workflow file: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
     const tagName = core.getInput('tag_name', { required: true });
 
@@ -8805,7 +8808,9 @@ async function run() {
 
     const bodyPath = core.getInput('body_path', { required: false });
     const owner = core.getInput('owner', { required: false }) || currentOwner;
+    console.log(`owner :: ${owner} // current ${currentOwner}`);
     const repo = core.getInput('repo', { required: false }) || currentRepo;
+    console.log(`repo :: ${owner} // current ${currentRepo}`);
     failsOnCreationError = core.getInput('failsOnCreationError', { required: false }) === 'true' || true;
     let bodyFileContent = null;
 
