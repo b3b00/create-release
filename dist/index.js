@@ -8822,8 +8822,8 @@ async function run() {
       repo: currentRepo
     });
     console.log('last release',lastRelease);
-    console.log(`tag:>${tag}< lastestRelease.Tag:>${lastRelease.releaseName}<`);
-    const lastTagName = lastRelease.releaseName;
+    console.log(`tag:>${tag}< lastestRelease.Tag:>${lastRelease.data.tag_name}<`);
+    const lastTagName = lastRelease.data.tag_name;
     const lastTag = tagName.startsWith('v') ? lastTagName.substring(1) : lastTagName;
     console.log(`comparing last release tag >${lastTag}< to >${tag}<`);
     if (lastTag === tag) {
