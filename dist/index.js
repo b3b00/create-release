@@ -8808,6 +8808,15 @@ async function run() {
     const repo = core.getInput('repo', { required: false }) || currentRepo;
     failsOnCreationError = core.getInput('failsOnCreationError', { required: false }) === 'true' || true;
     let bodyFileContent = null;
+
+    /*
+    check if release does not already exist. Returns immediatly if release exists.
+    */
+    const lastRelease = await github.repos.getLatestRelease();
+    if (lastRelease.TagName === tag) {
+      return;
+    }
+
     if (bodyPath !== '' && !!bodyPath) {
       try {
         bodyFileContent = fs.readFileSync(bodyPath, { encoding: 'utf8' });
