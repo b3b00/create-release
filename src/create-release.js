@@ -24,6 +24,7 @@ async function run() {
     const bodyPath = core.getInput('body_path', { required: false });
     const owner = core.getInput('owner', { required: false }) || currentOwner;
     const repo = core.getInput('repo', { required: false }) || currentRepo;
+    const failsOnCreationError = core.getInput('failsOnCreationError',{required: false}) || true;
     let bodyFileContent = null;
     if (bodyPath !== '' && !!bodyPath) {
       try {
@@ -57,7 +58,10 @@ async function run() {
     core.setOutput('html_url', htmlUrl);
     core.setOutput('upload_url', uploadUrl);
   } catch (error) {
-    core.setFailed(error.message);
+    if (failsOnCreationError) {
+      core.setFailed(error.message);
+    }
+    core.setOutput('upload_url', uploadUrl);
   }
 }
 

@@ -31,6 +31,9 @@ inputs:
   repo:
     description: 'Repository on which to release.  Used only if you want to create the release on another repo'
     required: false
+  failsOnCreationError:
+    description: 'if `true` then action fails on github release creation error. Otherwise action succeeds. Default: `true`'
+    required: false
 outputs:
   id:
     description: 'The ID of the created Release'
