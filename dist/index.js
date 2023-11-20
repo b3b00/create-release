@@ -8817,7 +8817,10 @@ async function run() {
     /*
     check if release does not already exist. Returns immediatly if release exists.
     */
-    const lastRelease = await github.repos.getLatestRelease();
+    const lastRelease = await github.repos.getLatestRelease({
+      owner: currentOwner,
+      repo: currentRepo
+    });
     if (lastRelease.TagName === tag) {
       return;
     }
