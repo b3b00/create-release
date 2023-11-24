@@ -11,9 +11,6 @@ async function run() {
     // Get owner and repo from context of payload that triggered the action
     const { owner: currentOwner, repo: currentRepo } = context.repo;
 
-    console.log(`current owner = ${context.repo.owner}`);
-    console.log(`current repo = ${context.repo.repo}`);
-
     // Get the inputs from the workflow file: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
     const tagName = core.getInput('tag_name', { required: true });
 
@@ -27,25 +24,19 @@ async function run() {
 
     const bodyPath = core.getInput('body_path', { required: false });
     const owner = core.getInput('owner', { required: false }) || currentOwner;
-    console.log(`owner :: ${owner} // current ${currentOwner}`);
     const repo = core.getInput('repo', { required: false }) || currentRepo;
-    console.log(`repo :: ${owner} // current ${currentRepo}`);
     failsOnCreationError = core.getInput('failsOnCreationError', { required: false }) === 'true' || true;
     let bodyFileContent = null;
 
     /*
-    check if release does not already exist. Returns immediatly if release exists.
-    */
+            check if release does not already exist. Returns immediatly if release exists.
+            */
     const lastRelease = await github.repos.getLatestRelease({
       owner: currentOwner,
       repo: currentRepo
     });
-    console.log('last release', lastRelease);
-    console.log(`tag:>${tag}< lastestRelease.Tag:>${lastRelease.data.tag_name}<`);
     const lastTagName = lastRelease.data.tag_name;
-    console.log(`comparing last release tag >${lastTagName}< to >${tag}<`);
     if (lastTagName === tag) {
-      console.log('no need for new release');
       return;
     }
 
@@ -57,7 +48,6 @@ async function run() {
       }
     }
 
-    console.log(`creating a new release with ${owner}/${repo} @${tag}`);
     // Create a release
     // API Documentation: https://developer.github.com/v3/repos/releases/#create-a-release
     // Octokit Documentation: https://octokit.github.io/rest.js/#octokit-routes-repos-create-release
