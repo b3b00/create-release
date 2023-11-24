@@ -8821,7 +8821,7 @@ async function run() {
       owner: currentOwner,
       repo: currentRepo
     });
-    console.log('last release',lastRelease);
+    console.log('last release', lastRelease);
     console.log(`tag:>${tag}< lastestRelease.Tag:>${lastRelease.data.tag_name}<`);
     const lastTagName = lastRelease.data.tag_name;
     console.log(`comparing last release tag >${lastTagName}< to >${tag}<`);
